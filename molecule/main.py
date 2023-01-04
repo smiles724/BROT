@@ -13,7 +13,7 @@ sys.path.append("..")
 from egnn import EGNN_Network
 from utils.model import build_model
 from utils.dann import Classifier, get_lambda
-from utils.brot import pot_brot
+from utils.brot import pot_brot   # TODO: rename to MROT
 from utils.kmeans import kmeans, kmeans_predict
 from utils.utils import parse_args, Logger, set_seed
 
