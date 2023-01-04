@@ -67,7 +67,7 @@ def t_SNE():
     data_x, data_pos, data_y = torch.load(f'../data/{args.data}.pt')
     if args.data == 'qm9': data_y = data_y[:, args.qm9_index]
 
-    # 不能对label进行随意缩放，因为模型预测值和真实值的差距会发生变化
+    # you cannot scale label randomly
     dataloader = DataLoader(TensorDataset(data_x, data_pos, data_y), batch_size=args.bs, shuffle=True)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id
@@ -98,7 +98,7 @@ def t_SNE():
     feats = torch.cat(feats, dim=0).cpu().numpy()
     ys = torch.cat(ys, dim=0).cpu().numpy()
 
-    # PCA速度太慢，UMAP效果不好，TSNE可以调节iterations
+    # PCA is too slow, UMAP performs badly, TSNE can tune iterations
     tsne = TSNE(n_components=2, verbose=1, n_iter=2000)
     feats = tsne.fit_transform(feats)
 

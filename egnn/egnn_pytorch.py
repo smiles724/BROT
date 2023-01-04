@@ -185,7 +185,7 @@ class EGNN(nn.Module):
         b, n, d, device, fourier_features, num_nearest, valid_radius, only_sparse_neighbors = *feats.shape, feats.device, self.fourier_features, self.num_nearest_neighbors, self.valid_radius, self.only_sparse_neighbors
         use_nearest = num_nearest > 0 or only_sparse_neighbors
 
-        # 计算相对位置矩阵
+        # calculate the relative position matrix
         rel_coors = rearrange(coors, 'b i d -> b i () d') - rearrange(coors, 'b j d -> b () j d')
         rel_dist = (rel_coors ** 2).sum(dim=-1, keepdim=True)
 
@@ -210,7 +210,7 @@ class EGNN(nn.Module):
                 ranking.masked_fill_(self_mask, -1.)
                 ranking.masked_fill_(adj_mat, 0.)
 
-            # 返回num_nearest个最小的值和对应的indices，注意num_nearst应小于等于n
+            # return num_nearest smallest values and corresponding indices. Note that num_nearst should be smaller than or equal to n
             nbhd_ranking, nbhd_indices = ranking.topk(num_nearest, dim=-1, largest=False)
 
             nbhd_mask = nbhd_ranking <= valid_radius
@@ -305,7 +305,7 @@ class EGNN_Network(nn.Module):
         if self.aggregate: self.out = predictor(dim)
         self.num_positions = num_positions
 
-        # 初始化embedding矩阵，num_tokens表示tokens的种类数目
+        # initialize embedding layers
         self.token_emb = nn.Embedding(num_tokens, dim) if exists(num_tokens) else None
         self.pos_emb = nn.Embedding(num_positions, dim) if exists(num_positions) else None
         self.edge_emb = nn.Embedding(num_edge_tokens, edge_dim) if exists(num_edge_tokens) else None
@@ -383,10 +383,10 @@ class EGNN_Network(nn.Module):
             return feats, coors, coor_changes
 
         if self.aggregate:
-            # 输出graph-level的特征
+            # output graph-level features
             return feats, self.out(feats)
         else:
-            # 输出维度为(B,N,3), (B,N,dim)
+            # output dimensions are (B,N,3), (B,N,dim)
             return coors, feats
 
 

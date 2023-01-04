@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0527bcb4-e8e8-4fd3-bc73-76f936207d33" name="Default Changelist" comment="" />
+    <list default="true" id="0527bcb4-e8e8-4fd3-bc73-76f936207d33" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/egnn/egnn_pytorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/egnn/egnn_pytorch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/egnn/egnn_pytorch_geometric.py" beforeDir="false" afterPath="$PROJECT_DIR$/egnn/egnn_pytorch_geometric.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mof/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/mof/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecule/dataloader_qm.py" beforeDir="false" afterPath="$PROJECT_DIR$/molecule/dataloader_qm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecule/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/molecule/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/visual.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/visual.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +24,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -24,7 +37,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "last_opened_file_path": "C:/Users/zh397/Desktop/My Research/(NMI 2022) BROT/BROT",
+    "last_opened_file_path": "C:/Users/zh397/Desktop/My Research/(Patterns 2022) BROT/BROT",
     "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
@@ -192,5 +205,16 @@
       <updated>1636432187491</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

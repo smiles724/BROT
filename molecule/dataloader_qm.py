@@ -16,7 +16,7 @@ def qm7():
     pos = torch.tensor(data['R'])
     y = torch.tensor(data['T'])[0]
 
-    # 加入占位原子
+    # add the placeholder atom
     x = torch.cat((torch.ones(x.shape[0]).unsqueeze(-1) * 20, x), dim=1)
     pos = torch.cat((torch.mean(pos, dim=-2, keepdim=True), pos), dim=1)
     assert x.shape[0] == y.shape[0], 'Some samples are missed!'
@@ -25,7 +25,7 @@ def qm7():
 
 def qm8():
     y = pd.read_csv('../../qm8.sdf.csv')
-    # 取第一个指标
+    # use the first property
     y = torch.tensor(y.to_numpy())[:, 1]
     x, pos = [], []
     start = time()
@@ -45,7 +45,7 @@ def qm8():
                 tmp_pos.append([float(i) for i in atom[:3]])
             idx += 1
 
-    # 加上最后一个
+    # add the last sample
     x.append(torch.tensor(tmp_x))
     pos.append(torch.tensor(tmp_pos))
 

@@ -39,7 +39,7 @@ def main():
         data_x, data_pos, data_y = data_x.double(), data_pos.double(), data_y.double()         # double precision
         exp_x, exp_pos, exp_y = exp_x.double(), exp_pos.double(), exp_y.double()
 
-    # 将实验数据集分为seen和unseen两部分
+    # split the dataset into seen and unseen parts
     unlabeled_x, labeled_x, unlabeled_pos, labeled_pos, unlabeled_y, labeled_y = train_test_split(exp_x, exp_pos, exp_y, test_size=args.ratio, random_state=args.seed)
     train_size, test_size = len(data_x), len(unlabeled_y)
     train_dataset = TensorDataset(data_x, data_pos, data_y)
@@ -49,7 +49,7 @@ def main():
     train_loader_labeled = DataLoader(train_dataset_labeled, batch_size=args.bs, shuffle=True)
 
     if args.method in ['dann', 'cadn', 'brot']:
-        test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False)   # 这里DANN、CADN简单只考虑unseen的数据用于对抗
+        test_loader = DataLoader(test_dataset, batch_size=args.bs, shuffle=False)   # here DANN、CADN only consider using unseen data for adversarial training for simplicity
     else:
         test_loader = DataLoader(test_dataset, batch_size=args.bs * 2, shuffle=False)
 
@@ -104,7 +104,7 @@ def main():
                 d_y = torch.cat([d_src, d_tgt], dim=0)
 
                 feat, pred = model(torch.cat([src_x, tgt_x], dim=0), torch.cat([src_pos, tgt_pos], dim=0), mask=torch.cat([src_mask, tgt_mask], dim=0))
-                if args.method == 'cadn': feat = feat * pred     # 由于预测值只有一维，所以无法使用torch.bmm
+                if args.method == 'cadn': feat = feat * pred     # torch.bmm cannot be used here because the prediction is only one-dimension
                 d_pred = discriminator(feat.detach())
                 d_loss = bce(d_pred, d_y)
                 d_optimizer.zero_grad()
@@ -124,17 +124,17 @@ def main():
 
                 feat, pred = model(torch.cat([src_x, tgt_x], dim=0), torch.cat([src_pos, tgt_pos], dim=0), mask=torch.cat([src_mask, tgt_mask], dim=0))
 
-                # 采用半监督的BROT距离公式，pytorch的cosine_similarity不是pairwise的，
+                # adopt semi-supervised BROT distance formula, cosine_similarity in pytorch is not pairwise
                 # https://stackoverflow.com/questions/50411191/how-to-compute-the-cosine-similarity-in-pytorch-for-all-rows-in-a-matrix-with-re
                 a_norm = feat[:len(src_x)] / feat[:len(src_x)].norm(dim=1)[:, None]
                 b_norm = feat[len(src_x):] / feat[len(src_x):].norm(dim=1)[:, None]
                 M_x = 1 - torch.mm(a_norm, b_norm.transpose(0, 1))
                 M_y = torch.cdist(src_y.unsqueeze(-1), tgt_y.unsqueeze(-1))
 
-                M_y = M_y / torch.max(M_y) + 1e-3  # 加入residue防止M_x / M_y过大
+                M_y = M_y / torch.max(M_y) + 1e-3  # add residue to prevent the case that M_x / M_y is too large
                 M = (M_x * (M_x / M_y).log())
-                M[M < 0] = 1e-4   # 限制距离不为负
-                ot_loss = pot_brot(mass_src, mass_tgt, M, args.reg1, args.reg2, src_y)   # 计算OT的loss
+                M[M < 0] = 1e-4   # ensure distance is not negative
+                ot_loss = pot_brot(mass_src, mass_tgt, M, args.reg1, args.reg2, src_y)   # OT loss
 
                 triplet_loss = 0
                 for i in range(len(args.n_clusters)):
@@ -159,14 +159,14 @@ def main():
                 loss_batch = criterion(pred[:len(src_x), 0], src_y)
             loss += loss_batch.item() / train_size * len(src_x)
 
-            for tgt_x_labeled, tgt_pos_labeled, tgt_y_labeled in train_loader_labeled:    # seen数据的回归loss
+            for tgt_x_labeled, tgt_pos_labeled, tgt_y_labeled in train_loader_labeled:    # regression loss of seen data
                 tgt_x_labeled, tgt_pos_labeled, tgt_y_labeled = tgt_x_labeled.long().cuda(), tgt_pos_labeled.cuda(), tgt_y_labeled.cuda()
                 tgt_mask_labeled = (tgt_x_labeled != 0)
                 feat, pred = model(tgt_x_labeled, tgt_pos_labeled, mask=tgt_mask_labeled)
                 loss_batch += criterion(pred[..., 0], tgt_y_labeled)
 
             if args.method in ['dann', 'cadn']:
-                loss_batch = loss_batch - 1e2 * get_lambda(epoch, args.ep) * d_loss            # 加上对抗loss
+                loss_batch = loss_batch - 1e2 * get_lambda(epoch, args.ep) * d_loss            # add adversarial loss
                 discriminator.zero_grad()
                 step += 1
             elif args.method == 'brot':
@@ -200,7 +200,7 @@ def main():
         spearman = stats.spearmanr(y_pred.cpu().numpy(), unlabeled_y.numpy())[0]
         pearson = stats.pearsonr(y_pred.cpu().numpy(), unlabeled_y.numpy())[0]
 
-        val_metric = val_metric ** 0.5    # 取RMSE
+        val_metric = val_metric ** 0.5    # calculate RMSE
         if args.method == 'brot':
             log.logger.info('Epoch: {} | Time: {:.1f}s | reg_loss: {:.3f} | ot_loss: {:.3f} | triplet_loss: {:.3f} |'
                             ' Val_Metric: {:.3f} | Spearman: {:.3f} | Pearson: {:.3f} | Lr: {:.3f}'

@@ -1,13 +1,6 @@
-import torch
-from torch import nn, einsum, broadcast_tensors
-import torch.nn.functional as F
-
-from einops import rearrange, repeat
-from einops.layers.torch import Rearrange
-
 # types
 
-from typing import Optional, List, Union
+from typing import List
 
 # pytorch geometric
 

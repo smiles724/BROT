@@ -1,5 +1,7 @@
-# BROT
-This is the repository for <em>BROT: Optimal Transport for Biochemical Regression Domain Adaption Problems.</em>
+# Biochemical Regression Optimal Transport (BROT)
+This is the repository for <em>BROT: Optimal Transport for Biochemical Regression Domain Adaption Problems.</em> [[arXiv](https://arxiv.org/abs/2202.06208)] 
+This work is now under review. 
+
 
 
 ## Environment
@@ -46,6 +48,9 @@ There is an excellent simple [implementation](https://www.kernel-operations.io/k
 It offers very straightforward and easy-to-understand APIs to plan a triplet loss. Please take care of the version of Pytorch. 
 
 ## Dataset
+We examine our method across a wide range of benchmark datasets, including QM7/8/9, ESOL, FreeSolv, and Lipophilicity. Notably, 
+all datasets except the adsorption dataset are open-accessed and broadly used by the AI4SCIENCE community. The adsorption 
+dataset is newly collected and please cite our paper if you employ this database. 
 - **QM7**  
 Download (Official Website): `http://quantum-machine.org/datasets/ `  
 Download (DeepChem, *recommend*): `https://github.com/deepchem/deepchem/blob/master/deepchem/molnet/load_function/qm7_datasets.py#L30-L107`  
@@ -113,7 +118,17 @@ Proof of Gromov-Wasserstein Metric:
  [Paper](https://media.adelaide.edu.au/acvt/Publications/2011/2011-Gromov%E2%80%93Wasserstein%20Distances%20and%20the%20Metric%20Approach%20to%20Object%20Matching.pdf);
  [Paper](https://arxiv.org/pdf/1808.04337.pdf) 
 
-
+## Cite and Contact
+Thanks for your time to review our code repo for BROT. If you have any sort of problems, please do not hesitate to reach out to the author `fw2359@columbia.edu`. 
+We would be really appreciate it if you find our study beneficial and cite it! 
+```markdown
+@article{wu2022metric,
+  title={Metric Learning-enhanced Optimal Transport for Biochemical Regression Domain Adaptation},
+  author={Wu, Fang and Courty, Nicolas and Qiang, Zhang and Li, Ziqing and others},
+  journal={arXiv preprint arXiv:2202.06208},
+  year={2022}
+}
+```
 
 
 

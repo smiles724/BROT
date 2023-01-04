@@ -26,7 +26,7 @@ def parse_args():
     parser.add_argument('--reg1', type=float, default=1e2, help='Entropic Regularization term for OT.')
     parser.add_argument('--reg2', type=float, default=1e-1, help='Second Regularization term for OT.')
 
-    # set the hyper-parameters of Molformer设置模型结构参数
+    # set the hyper-parameters of Molformer
     parser.add_argument('--atom_class', type=int, default=100, help='The default number of atom classes + 1.')
     parser.add_argument('--n_encoder', type=int, default=2, help='Number of stacked encoder.')
     parser.add_argument('--embed_dim', type=int, default=512, help='Dimension of PE, embed_dim % head == 0.')
